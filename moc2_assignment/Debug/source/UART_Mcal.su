@@ -3,8 +3,8 @@
 ../source/UART_Mcal.c:70:6:Enable_Interrupt_UART_Recive	24	static
 ../source/UART_Mcal.c:76:6:Disnable_Interrupt_UART_Recive	24	static
 ../source/UART_Mcal.c:81:6:UART_Init	64	static
-../source/UART_Mcal.c:140:6:UART_Transmit_Buff	16	static
-../source/UART_Mcal.c:143:6:UART_Transmit_Byte	24	static
-../source/UART_Mcal.c:160:6:UART_Receive_Byte	24	static
-../source/UART_Mcal.c:172:6:UART_Receive_Buff	24	static
-../source/UART_Mcal.c:183:6:UART_Receive_Byte_Interrupt	8	static
+../source/UART_Mcal.c:137:6:UART_Transmit_Buff	16	static
+../source/UART_Mcal.c:140:6:UART_Transmit_Byte	24	static
+../source/UART_Mcal.c:157:6:UART_Receive_Byte	24	static
+../source/UART_Mcal.c:170:6:UART_Receive_Buff	24	static
+../source/UART_Mcal.c:181:6:UART_Receive_Byte_Interrupt	8	static

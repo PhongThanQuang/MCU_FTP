@@ -13,8 +13,15 @@
 #include "stdint.h"
 #include "UART_Mcal.h"
 #include "KE16_Flash.h"
+#include "fsl_lpuart.h"
 //#include "core_cm0plus.h"
 //#include "ADC_Mcal.h"
+
+#define DEMO_LPUART            LPUART0
+#define DEMO_LPUART_CLKSRC     kCLOCK_ScgSysOscClk
+#define DEMO_LPUART_CLK_FREQ   CLOCK_GetFreq(kCLOCK_ScgSysOscClk)
+#define DEMO_LPUART_IRQn       LPUART0_IRQn
+#define DEMO_LPUART_IRQHandler LPUART0_IRQHandler
 
 /*******************************************************************************
  * Definitions
@@ -61,126 +68,30 @@ void delay(uint8_t time)
 //
 //}
 
-
 /*!
  * @brief Main function
  */
+uint8_t select_mode = 0;
 
-
-
-
-//void firstEvent(){
-//	set_Led(LED_GREEN);
-//	set_Led(LED_RED);
-//	SystickDelay(200);
-//	clear_Led(LED_GREEN);
-//	clear_Led(LED_RED);
-//	SystickDelay(200);
-//}
-//
-//void secondEvent(){
-//	set_Led(LED_GREEN);
-//	clear_Led(LED_RED);
-//	SystickDelay(200);
-//
-//	set_Led(LED_RED);
-//	clear_Led(LED_GREEN);
-//	SystickDelay(200);
-//
-//}
-
-
-// INTERRUPT NVIC
-
-// + Exception Vector is Enable or Disable
-// + Configure Exception Priority
-// + Manage Exception State
-
-//volatile bool Flag_mode = false ;
-//
-//
-//
-//void buttonIRQ_Handle(SWITCH_List SW){
-//	Flag_mode = !Flag_mode;
-//
-//}
-//
-//volatile bool Flag_LPIT = false;
-//
-//void channel0IRQ_Handle(Channel_Type Channel)
-//{
-//	if (Channel == CHANNEL_0)	Flag_LPIT = !Flag_LPIT;
-//
-//
-//}
-//
-//
-//
-//ADC_Config Adc_conf = {
-//		.Async_CLK_Source = SOURCE_FIRCDIV2_CLK_ASYNC,
-//		.AsyncClock_Divide = DIVIDE_1_ASYNC,
-//		.mode_ADC_Trigger = SOFTWARE_TRIGGER,
-//		.modeRead = READ_CONTINOUS,
-//		.interrupt_ADC_status = INTERRUPT_ADC_ENABLE
-//};
-//
-//
-//// Synchoronous - Blocking
-//// Asynchoronous - None Blocking
-//
-//void ADC0_IRQHandler(){
-//	toggle_Led(LED_GREEN);
-//}
-volatile uint32_t data;
-
-uint8_t dataRC ;
-uint8_t data_;
 int main(void)
 {
-	// PIT - Timer counter
-	// - Generation Periodic Interrupt (Delay)
-	// - Generation Periodic Trigger (Trigger ADC)
-	// Start: Software/ Trigger input/ timeout
-	// Clock: can configuration
 
 
-	//ADC_Init(ADC0,&Adc_conf);
-	//Enable_Intterupt_NVIC_ADC();
-
-
-	//init_GPIO_System(SW2,&buttonIRQ_Handle);
-	//EnableInterruptButton();
-
-	//Init_timer_LPIT(CHANNEL_0,&channel0IRQ_Handle);
-	//enable_interrupt_LPIT();
-
-	UARTx_Config_t uartTest = {
-			.baurate_uart = BAURATE_115200,
-			.AsyncUART = SOURCE_FIRCDIV2_CLK_ASYNC,
-			.Divide = DIVIDE_1_ASYNC
-
-	};
-	uint8_t txbuff[]   = "Lpuart polling example\r\nBoard will send back received characters\r\n";
-	uint8_t txbuff_test[5];
-	UART_Init(UART_0, &uartTest);
-	uint8_t test_data = 0xA;
-	//Enable_Interrupt_UART_Recive(UART_0);
-	//FLASH_Write(0x5000, test_data);
-	//UART_Transmit_Byte(UART_0,test_data);
-	//UART_Receive_Buff(UART_0, txbuff_test, 5);
-	//uint8_t dataRC = 0;
-	uint8_t i = 0 ;
     while (1)
     {
+    	if (select_mode){
+    			// Application mode
+    		} else {
+    			// transfer vector table from flash to ram
 
-    	delay(20);
-    	UART_Receive_Byte(UART_0,&dataRC);
-    	txbuff_test[i] = dataRC;
-    	i++;
-    	delay(20);
-    	//data_ = dataRC;
-    	//data =	Read_ADC(ADC0);
-    	//SystickDelay(10);
+
+    			// Write new firmware
+
+
+    			// jump to Application
+    		}
     }
-    //(void) data;
+}
+
+
 }

@@ -13,7 +13,8 @@ source/main.o source/main.d: ../source/main.c ../source/UART_Mcal.h \
  C:\Users\ADMIN\Documents\MCUXpressoIDE_24.9.25\workspace\moc2_assignment\drivers/fsl_clock.h \
  C:\Users\ADMIN\Documents\MCUXpressoIDE_24.9.25\workspace\moc2_assignment\drivers/fsl_common.h \
  ../source/PCC_Mcal.h ../source/Port_Mcal.h ../source/NVIC_Mcal.h \
- ../source/KE16_Flash.h
+ ../source/KE16_Flash.h \
+ C:\Users\ADMIN\Documents\MCUXpressoIDE_24.9.25\workspace\moc2_assignment\drivers/fsl_lpuart.h
 ../source/UART_Mcal.h:
 C:\Users\ADMIN\Documents\MCUXpressoIDE_24.9.25\workspace\moc2_assignment\device/MKE16Z4.h:
 C:\Users\ADMIN\Documents\MCUXpressoIDE_24.9.25\workspace\moc2_assignment\CMSIS/core_cm0plus.h:
@@ -32,3 +33,4 @@ C:\Users\ADMIN\Documents\MCUXpressoIDE_24.9.25\workspace\moc2_assignment\drivers
 ../source/Port_Mcal.h:
 ../source/NVIC_Mcal.h:
 ../source/KE16_Flash.h:
+C:\Users\ADMIN\Documents\MCUXpressoIDE_24.9.25\workspace\moc2_assignment\drivers/fsl_lpuart.h:
