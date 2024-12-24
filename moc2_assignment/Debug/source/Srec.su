@@ -1,0 +1,4 @@
+../source/Srec.c:7:9:hex_to_byte	32	static
+../source/Srec.c:23:5:parse_srec_line	48	static
+../source/Srec.c:64:5:verify_checksum	32	static
+../source/Srec.c:80:6:read_srec_file	808	static

@@ -1,2 +1,2 @@
-C:\Users\ADMIN\Documents\MCUXpressoIDE_24.9.25\workspace\moc2_assignment\drivers/fsl_clock.h:623:20:CLOCK_SetIpSrc	24	static
+C:\Users\ADMIN\Documents\MCUXpressoIDE_24.9.25\workspace\MCU_FTP\moc2_assignment\drivers/fsl_clock.h:623:20:CLOCK_SetIpSrc	24	static
 ../board/board.c:24:6:BOARD_InitDebugConsole	16	static

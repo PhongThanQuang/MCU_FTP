@@ -76,7 +76,7 @@ void Enable_Interrupt_UART_Recive(UART_Instance_t UARTx){
 void Disnable_Interrupt_UART_Recive(UART_Instance_t UARTx){
 	LPUART_Type * UART_x = UART_Instance[UARTx];
 	UART_x->CTRL |= LPUART_CTRL_RIE(0);
-	Disble_Intterupt_NVIC(LPUART0_IRQn);
+	Disable_Intterupt_NVIC(LPUART0_IRQn);
 }
 void UART_Init(UART_Instance_t UARTx, UARTx_Config_t *uartconfig){
 
@@ -157,7 +157,7 @@ void UART_Transmit_Byte(UART_Instance_t UARTx ,uint8_t Data){
 void UART_Receive_Byte(UART_Instance_t UARTx ,uint8_t *Data){
 	LPUART_Type * UART_x = UART_Instance[UARTx];
 	UART_x->CTRL |= LPUART_CTRL_RE(1); // 1b - Receiver enabled
-	//while(!(UART_x->STAT & LPUART_STAT_RDRF_MASK));
+	while(!(UART_x->STAT & LPUART_STAT_RDRF_MASK));
 	*Data = UART_x->DATA;
 	UART_x->CTRL |= LPUART_CTRL_RE(0); // 1b - Receiver enabled
 }
