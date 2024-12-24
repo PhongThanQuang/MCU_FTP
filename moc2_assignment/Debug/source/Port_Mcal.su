@@ -1,0 +1,2 @@
+../source/Port_Mcal.c:13:10:PORT_Pin_Init	24	static
+../source/Port_Mcal.c:66:6:PORTBCD_IRQHandler	8	static

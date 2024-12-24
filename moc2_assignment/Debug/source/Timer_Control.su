@@ -1,0 +1,2 @@
+../source/Timer_Control.c:4:6:Init_timer_LPIT	24	static
+../source/Timer_Control.c:24:6:enable_interrupt_LPIT	8	static

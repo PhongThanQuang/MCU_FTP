@@ -1,0 +1,3 @@
+../source/NVIC_Mcal.c:3:6:Enable_Intterupt_NVIC	16	static
+../source/NVIC_Mcal.c:7:6:Disable_Intterupt_NVIC	16	static
+../source/NVIC_Mcal.c:11:6:setPriorityInterrupt	32	static

@@ -1,0 +1,4 @@
+../source/LPIT_Mcal.c:8:6:LPIT_Init	16	static
+../source/LPIT_Mcal.c:43:6:LPIT_Start_Timer	16	static
+../source/LPIT_Mcal.c:48:6:LPIT_Stop_Timer	24	static
+../source/LPIT_Mcal.c:53:6:LPIT0_IRQHandler	8	static

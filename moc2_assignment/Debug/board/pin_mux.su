@@ -1,0 +1,4 @@
+C:\Users\ADMIN\Documents\MCUXpressoIDE_24.9.25\workspace\moc2_assignment\drivers/fsl_clock.h:594:20:CLOCK_EnableClock	16	static
+C:\Users\ADMIN\Documents\MCUXpressoIDE_24.9.25\workspace\moc2_assignment\drivers/fsl_port.h:463:20:PORT_SetPinMux	24	static
+../board/pin_mux.c:37:6:BOARD_InitBootPins	8	static
+../board/pin_mux.c:61:6:BOARD_InitPins	8	static

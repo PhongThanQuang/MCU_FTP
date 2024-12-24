@@ -1,0 +1,10 @@
+../source/ASM1_MCU.c:35:6:delay	24	static
+../source/ASM1_MCU.c:161:10:Enable_Clock_Port	16	static
+../source/ASM1_MCU.c:167:10:PORT_Pin_Init	24	static
+../source/ASM1_MCU.c:186:10:PinMode	16	static
+../source/ASM1_MCU.c:191:10:digitalWrite	16	static
+../source/ASM1_MCU.c:195:10:digitalRead	16	static
+../source/ASM1_MCU.c:201:10:togglePin	16	static
+../source/ASM1_MCU.c:205:10:clearPin	16	static
+../source/ASM1_MCU.c:209:10:setPin	16	static
+../source/ASM1_MCU.c:213:5:main	16	static
