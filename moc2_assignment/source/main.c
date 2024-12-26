@@ -37,6 +37,7 @@
  * @brief delay a while.
  */
 void delay(uint8_t time);
+void jump_to_app(void);
 
 /*******************************************************************************
  * Variables
@@ -51,6 +52,16 @@ void delay(uint8_t time) {
 		__asm("NOP");
 		/* delay */
 	}
+}
+
+void jump_to_app() {
+	uint32_t app_start_address = *(volatile uint32_t*) (INIT_MEMORY_DATA + 4); // Vector Reset
+	void (*app_reset_handler)(void) = (void (*)(void))app_start_address;
+
+	__disable_irq();  // Vô hiệu hóa ngắt
+	SCB->VTOR = INIT_MEMORY_DATA;  // Cập nhật bảng vector
+	__set_MSP(*(volatile uint32_t*) APP_START_ADDRESS);  // Stack Pointer
+	app_reset_handler();  // Nhảy vào ứng dụng
 }
 
 /*!
@@ -109,6 +120,8 @@ int main(void) {
 			case '7':
 			case '8':
 			case '9':
+				Mode_Select = 1;
+				break;
 
 			}
 
