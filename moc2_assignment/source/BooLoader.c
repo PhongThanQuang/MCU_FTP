@@ -14,11 +14,13 @@
 #include "PCC_Mcal.h"
 #include "Port_Mcal.h"
 #include "UART_Mcal.h"
+#include "SREC.h"
 
 /*
  * Global variable for srec
  */
 int Srec_Length;
+uint8_t Add_Length;
 uint32_t Data_Length;
 char Arr_Data[256], Arr_Add[256];
 int Srec_Type;
@@ -61,14 +63,14 @@ bool Queue_isEmpty() {
  * @return queue[Write_Idx]
  */
 uint32_t Get_Current_Write_Idx() {
-	return (uint32_t) queue[Write_Idx];
+	return (uint32_t) Arr_Queue[Write_Idx];
 }
 
 /*
  * @Description
  */
 void Increase_Write_Idx() {
-	if (!QUEUE_IsFull()) {
+	if (!Queue_isFull()) {
 		Write_Idx++;
 		Queue++;
 		if (Write_Idx > BUFFER_FULL) {
@@ -79,12 +81,12 @@ void Increase_Write_Idx() {
 
 uint32_t Get_Current_Read_Idx()
 {
-	return (uint32_t)queue[Read_Idx];
+	return (uint32_t)Arr_Queue[Read_Idx];
 }
 
 void Increase_Read_Idx()
 {
-	if(!QUEUE_Empty())
+	if(!Queue_isEmpty())
 	{
 		Read_Idx++;
 		Queue--;
@@ -135,7 +137,7 @@ __attribute__((naked)) void SetMSP(uint32_t newMSP)
 void main()
 {
 	Vector_Table();
-	initLed();
+//	initLed();
 	/* Run baudrate 1000000 with FLL clock */
 	UART0_Init(1000000);
     UART_SendString("\r\n  -- BOOTLOADER MODE --\r\n");
@@ -144,77 +146,88 @@ void main()
     uint8_t data_new[256];
 	int i;
 	int j;
-    Fls_EraseMultiSector(INIT_DATA_MEMORY, 5);
+    Fls_EraseMultiSector(INIT_MEMORY_DATA, 5);
     while (1)
     {
     	if(!QUEUE_Empty())
     	{
     	    uint8_t* myString = (uint8_t*)Get_Current_Read_Idx();
-    		src_type = myString[1];
-    		src_lenght = TwoChar_toByte(myString[2], myString[3])*2 + 4;
-    		Add_lenght = add_lenght(src_type);
-    		for (i = 0; i <  Add_lenght; i++)
+    		Srec_Type = myString[1];
+    		Srec_Length = TwoChar_toByte(myString[2], myString[3])*2 + 4;
+    		Add_Length = hex_to_byte(Srec_Type);
+    		for (i = 0; i <  Add_Length; i++)
     		    {
-    		      arr_add[i]=myString[i+4];
+    				Arr_Add[i]=myString[i+4];
     		    }
-    		arr_add[Add_lenght] = '\0';
-    		for (i = 0; i <  Add_lenght ; i+=2 )
+    		Arr_Add[Add_Length] = '\0';
+    		for (i = 0; i <  Add_Length ; i+=2 )
     		{
-    				add_new[i>>1] = TwoChar_toByte(arr_add[i], arr_add[i+1]);
+    				add_new[i>>1] = TwoChar_toByte(Arr_Add[i], Arr_Add[i+1]);
     		}
-    		Data_lenght = src_lenght - 6 - Add_lenght;
-            for (j = 0; j <  Data_lenght; j++)
+    		Data_Length = Srec_Length - 6 - Add_Length;
+            for (j = 0; j <  Data_Length; j++)
         	{
-            	arr_data[j] = myString[j + 4 + Add_lenght];
+            	Arr_Add[j] = myString[j + 4 + Add_Length];
         	}
-            arr_data[Data_lenght] = '\0';
-    		for (j = 0; j <  Data_lenght; j+=2 )
+            Arr_Add[Data_Length] = '\0';
+    		for (j = 0; j <  Data_Length; j+=2 )
     		{
-    				data_new[j>>1] = TwoChar_toByte(arr_data[j], arr_data[j+1]);
+    				data_new[j>>1] = TwoChar_toByte(Arr_Add[j], Arr_Add[j+1]);
     		}
     		Increase_Read_Idx();
-    		 if(src_type !='0')
+    		 if(Srec_Type !='0')
     				   {
-    					  Fls_Write(add_new, data_new, (Data_lenght/2));
+    					  FLASH_Write(add_new, data_new);
 
     				   }
-    		 if(src_type =='9')
+    		 if(Srec_Type =='9')
     				   {
     			 	 	   UART_SendString("\r\n  -- APPLICATION MODE --\r\n");
     			 	 	    uint32_t reset_address = 0;
     					    pFunction jump_to_address;
     					    __disable_irq();
     					    /* Relocate exception vector table */
-    					    SCB->VTOR = INIT_DATA_MEMORY;
+    					    SCB->VTOR = INIT_MEMORY_DATA;
     					    /* Set main stack pointer */
-    					    SetMSP(*(uint32_t*)INIT_DATA_MEMORY);
+    					    SetMSP(*(uint32_t*)INIT_MEMORY_DATA);
     					    /* Reset interrupt handler address */
-    					    reset_address = *(uint32_t*)(INIT_DATA_MEMORY + 4);
+    					    reset_address = *(uint32_t*)(INIT_MEMORY_DATA + 4);
     					    /* Call reset interrupt handler */
     					    jump_to_address = (pFunction)(reset_address);
     					    /* Jump to application */
     					    jump_to_address();
     				   }
-    		 src_lenght = 0;
+    		 Srec_Length = 0;
     	}
     }
 }
 
-void UART0_IRQHandler(void)
-{
-	uint8_t* currentline = (uint8_t*)Get_Current_Write_Idx();
-	static int i = 0;
-	if (((UART0->S1 & UART_S1_RDRF_MASK) != 0) && (QUEUE_IsFull() == false))
-	{
-				currentline[i] = UART0->D;
-                if( currentline[i] == '\r')
-                {
-                	Increase_Write_Idx();
-                	i = 0;
-                }
-                else
-                {
-                	i++;
-                }
-	}
+void JumpToApplication(void) {
+    uint32_t app_start_address = *(volatile uint32_t*)(INIT_MEMORY_DATA + 4);  // Vector Reset
+    void (*app_reset_handler)(void) = (void (*)(void))app_start_address;
+
+    __disable_irq();  // Vô hiệu hóa ngắt
+    SCB->VTOR = INIT_MEMORY_DATA;  // Cập nhật bảng vector
+    __set_MSP(*(volatile uint32_t*)APP_START_ADDRESS);  // Stack Pointer
+    app_reset_handler();  // Nhảy vào ứng dụng
 }
+
+
+//void UART0_IRQHandler(void)
+//{
+//	uint8_t* currentline = (uint8_t*)Get_Current_Write_Idx();
+//	static int i = 0;
+//	if (((UART0->S1 & UART_S1_RDRF_MASK) != 0) && (QUEUE_IsFull() == false))
+//	{
+//				currentline[i] = UART0->D;
+//                if( currentline[i] == '\r')
+//                {
+//                	Increase_Write_Idx();
+//                	i = 0;
+//                }
+//                else
+//                {
+//                	i++;
+//                }
+//	}
+//}

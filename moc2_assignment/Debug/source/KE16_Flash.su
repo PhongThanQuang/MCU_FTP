@@ -1,4 +1,0 @@
-../source/KE16_Flash.c:15:6:FLASH_Write	16	static
-../source/KE16_Flash.c:47:6:FLASH_Erase	16	static
-../source/KE16_Flash.c:68:6:Flash_EraseSector	24	static
-../source/KE16_Flash.c:79:10:Flash_Read	16	static

@@ -1,3 +1,0 @@
-../source/PCC_Mcal.c:4:10:Enable_Clock_Module	16	static
-../source/PCC_Mcal.c:11:10:Disable_Clock_Module	16	static
-../source/PCC_Mcal.c:19:6:Select_Soure_Async_CLK	24	static

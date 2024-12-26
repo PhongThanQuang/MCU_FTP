@@ -1,3 +1,0 @@
-../source/LPIT_Control.c:5:6:Func_CallBack_LPIT_MDW	16	static
-../source/LPIT_Control.c:9:6:Init_timer_LPIT	48	static
-../source/LPIT_Control.c:34:6:enable_interrupt_LPIT	8	static
