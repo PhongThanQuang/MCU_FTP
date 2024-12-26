@@ -1,6 +1,0 @@
-../source/GPIO_Mcal.c:5:10:PinMode	16	static
-../source/GPIO_Mcal.c:10:10:digitalWrite	16	static
-../source/GPIO_Mcal.c:14:10:digitalRead	16	static
-../source/GPIO_Mcal.c:19:10:togglePin	16	static
-../source/GPIO_Mcal.c:23:10:clearPin	16	static
-../source/GPIO_Mcal.c:27:10:setPin	16	static

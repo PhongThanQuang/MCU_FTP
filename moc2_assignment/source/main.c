@@ -1,14 +1,8 @@
 /*
- * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2017 NXP
- * All rights reserved.
- *
- * SPDX-License-Identifier: BSD-3-Clause
+ * BootLoader for Board KE16Z4
  */
-
-// Appplication
-//#include <GPIO_Control.h>
-//#include <LPIT_Control.h>
+#include <GPIO_Control.h>
+#include <LPIT_Control.h>
 #include "stdint.h"
 #include "UART_Mcal.h"
 #include "KE16_Flash.h"
@@ -37,7 +31,7 @@
  * @brief delay a while.
  */
 void delay(uint8_t time);
-void jump_to_app(void);
+void jump_To_Application(void);
 
 /*******************************************************************************
  * Variables
@@ -54,16 +48,6 @@ void delay(uint8_t time) {
 	}
 }
 
-void jump_to_app() {
-	uint32_t app_start_address = *(volatile uint32_t*) (INIT_MEMORY_DATA + 4); // Vector Reset
-	void (*app_reset_handler)(void) = (void (*)(void))app_start_address;
-
-	__disable_irq();  // Vô hiệu hóa ngắt
-	SCB->VTOR = INIT_MEMORY_DATA;  // Cập nhật bảng vector
-	__set_MSP(*(volatile uint32_t*) APP_START_ADDRESS);  // Stack Pointer
-	app_reset_handler();  // Nhảy vào ứng dụng
-}
-
 /*!
  * @brief Main function
  */
@@ -77,6 +61,9 @@ uint8_t data_rx;
 uint8_t idx_hex;
 uint32_t Value_only_register[4] = { -1 };
 uint8_t flag_completed_receive_one_line = 1;
+
+typedef void (*pFunction)(void);
+
 void LPUART0_IRQHandler() {
 
 	data_rx = LPUART0->DATA;
@@ -92,8 +79,9 @@ int main(void) {
 	Enable_Interrupt_UART_Recive(UART_0);
 	modeActive = BOOT_MODE; // Always boot mode
 	while (1) {
-		if (Mode_Select) {
+		if (Mode_Select == 1) {
 			// Application mode
+			jump_To_Application();
 		} else {
 			// transfer vector table from flash to ram
 
@@ -130,3 +118,26 @@ int main(void) {
 	}
 }
 
+void jump_To_Application() {
+//	uint32_t reset_address = 0;
+//	pFunction jump_to_address;
+//	__disable_irq();
+//	/* Relocate exception vector table */
+//	SCB->VTOR = INIT_MEMORY_DATA;
+//	/* Set main stack pointer */
+//	SetMSP(*(uint32_t*) INIT_MEMORY_DATA);
+//	/* Reset interrupt handler address */
+//	reset_address = *(uint32_t*) (INIT_MEMORY_DATA + 4);
+//	/* Call reset interrupt handler */
+//	jump_to_address = (pFunction) (reset_address);
+//	/* Jump to application */
+//	jump_to_address();
+
+	uint32_t app_start_address = *(volatile uint32_t*) (INIT_MEMORY_DATA + 4); // Vector Reset
+	void (*app_reset_handler)(void) = (void (*)(void))app_start_address;
+
+	__disable_irq();  // Vô hiệu hóa ngắt
+	SCB->VTOR = INIT_MEMORY_DATA;  // Cập nhật bảng vector
+	__set_MSP(*(volatile uint32_t*) APP_START_ADDRESS);  // Stack Pointer
+	app_reset_handler();
+}
