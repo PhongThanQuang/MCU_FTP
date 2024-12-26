@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+
 uint8_t hex_to_byte(const char *hex) {
     uint8_t value = 0;
     for (int i = 0; i < 2; i++) {
@@ -52,6 +54,10 @@ int parse_srec_line(const char *line, SREC_Record *record) {
     int data_start = 4 + address_length;
     int data_length = (record->byte_count - (address_length / 2) - 1);
 
+    if (data_length > 32) {
+        return -1; // Dữ liệu quá dài cho mảng
+    }
+
     for (int i = 0; i < data_length; i++) {
         record->data[i] = hex_to_byte(line + data_start + (i * 2));
     }
@@ -60,6 +66,7 @@ int parse_srec_line(const char *line, SREC_Record *record) {
 
     return 0;
 }
+
 
 int verify_checksum(const SREC_Record *record) {
     uint8_t sum = record->byte_count;

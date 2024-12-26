@@ -48,7 +48,7 @@ main-build: moc2_assignment.axf
 moc2_assignment.axf: $(OBJS) $(USER_OBJS) makefile $(OPTIONAL_TOOL_DEPS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU Linker'
-	arm-none-eabi-gcc -nostdlib -Xlinker -no-warn-rwx-segments -Xlinker -Map="moc2_assignment.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -Xlinker --cref -mcpu=cortex-m0plus -mthumb -T moc2_assignment_Debug.ld -o "moc2_assignment.axf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -nostdlib -Xlinker -no-warn-rwx-segments -Xlinker -Map="moc2_assignment.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -Xlinker --cref -mcpu=cortex-m0plus -mthumb -T frdmke16z_gpio_led_output_Debug.ld -o "moc2_assignment.axf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -59,7 +59,7 @@ clean:
 
 post-build:
 	-@echo 'Performing post-build steps'
-	-arm-none-eabi-size "moc2_assignment.axf"; # arm-none-eabi-objcopy -v -O binary "moc2_assignment.axf" "moc2_assignment.bin" ; # checksum -p MKE16Z64xxx4 -d "moc2_assignment.bin";
+	-arm-none-eabi-size "moc2_assignment.axf" ; arm-none-eabi-objcopy -v -O srec "moc2_assignment.axf" "moc2_assignment.s19" ; # checksum -p MKE16Z64xxx4 -d "moc2_assignment.bin"
 	-@echo ' '
 
 .PHONY: all clean dependents main-build post-build

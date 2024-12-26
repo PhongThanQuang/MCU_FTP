@@ -11,7 +11,7 @@ typedef struct {
     char type;          // Loại bản ghi (S0, S1, S2, ...)
     uint8_t byte_count; // Số byte trong bản ghi
     uint32_t address;   // Địa chỉ nạp dữ liệu
-    uint8_t data[256];  // Dữ liệu
+    uint8_t data[32];   	// Dữ liệu
     uint8_t checksum;   // Checksum
 } SREC_Record;
 
@@ -26,5 +26,8 @@ int verify_checksum(const SREC_Record *record);
 
 // Hàm đọc file SREC
 void read_srec_file(const char *filename);
+
+
+
 
 #endif // SREC_H

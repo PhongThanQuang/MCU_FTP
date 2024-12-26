@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../source/ADC_Mcal.c \
+../source/BootLoader_Handle.c \
 ../source/GPIO_Control.c \
 ../source/GPIO_Mcal.c \
 ../source/KE16_Flash.c \
@@ -21,6 +22,7 @@ C_SRCS += \
 
 C_DEPS += \
 ./source/ADC_Mcal.d \
+./source/BootLoader_Handle.d \
 ./source/GPIO_Control.d \
 ./source/GPIO_Mcal.d \
 ./source/KE16_Flash.d \
@@ -37,6 +39,7 @@ C_DEPS += \
 
 OBJS += \
 ./source/ADC_Mcal.o \
+./source/BootLoader_Handle.o \
 ./source/GPIO_Control.o \
 ./source/GPIO_Mcal.o \
 ./source/KE16_Flash.o \
@@ -64,7 +67,7 @@ source/%.o: ../source/%.c source/subdir.mk
 clean: clean-source
 
 clean-source:
-	-$(RM) ./source/ADC_Mcal.d ./source/ADC_Mcal.o ./source/GPIO_Control.d ./source/GPIO_Control.o ./source/GPIO_Mcal.d ./source/GPIO_Mcal.o ./source/KE16_Flash.d ./source/KE16_Flash.o ./source/LPIT_Control.d ./source/LPIT_Control.o ./source/LPIT_Mcal.d ./source/LPIT_Mcal.o ./source/NVIC_Mcal.d ./source/NVIC_Mcal.o ./source/PCC_Mcal.d ./source/PCC_Mcal.o ./source/Port_Mcal.d ./source/Port_Mcal.o ./source/Srec.d ./source/Srec.o ./source/UART_Mcal.d ./source/UART_Mcal.o ./source/main.d ./source/main.o ./source/mtb.d ./source/mtb.o ./source/semihost_hardfault.d ./source/semihost_hardfault.o
+	-$(RM) ./source/ADC_Mcal.d ./source/ADC_Mcal.o ./source/BootLoader_Handle.d ./source/BootLoader_Handle.o ./source/GPIO_Control.d ./source/GPIO_Control.o ./source/GPIO_Mcal.d ./source/GPIO_Mcal.o ./source/KE16_Flash.d ./source/KE16_Flash.o ./source/LPIT_Control.d ./source/LPIT_Control.o ./source/LPIT_Mcal.d ./source/LPIT_Mcal.o ./source/NVIC_Mcal.d ./source/NVIC_Mcal.o ./source/PCC_Mcal.d ./source/PCC_Mcal.o ./source/Port_Mcal.d ./source/Port_Mcal.o ./source/Srec.d ./source/Srec.o ./source/UART_Mcal.d ./source/UART_Mcal.o ./source/main.d ./source/main.o ./source/mtb.d ./source/mtb.o ./source/semihost_hardfault.d ./source/semihost_hardfault.o
 
 .PHONY: clean-source
 

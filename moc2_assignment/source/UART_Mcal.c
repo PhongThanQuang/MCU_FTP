@@ -70,6 +70,7 @@ static void UART_SetBaudrate(LPUART_Type *base, BAURATE_uart baudrate, uint32_t 
 void Enable_Interrupt_UART_Recive(UART_Instance_t UARTx){
 	LPUART_Type * UART_x = UART_Instance[UARTx];
 	UART_x->CTRL |= LPUART_CTRL_RIE(1);
+	UART_x->CTRL |= LPUART_CTRL_RE(1);
 	Enable_Intterupt_NVIC(LPUART0_IRQn);
 }
 
@@ -120,7 +121,6 @@ void UART_Init(UART_Instance_t UARTx, UARTx_Config_t *uartconfig){
 
 	UART_x->CTRL |= LPUART_CTRL_M(0); // Select 8 bit characters
 
-	UART_x->CTRL |= LPUART_CTRL_TE(1) | LPUART_CTRL_RE(1);
 
 	//UART_x->CTRL |= LPUART_CTRL_PE(1); 	// Parity enabled.
 

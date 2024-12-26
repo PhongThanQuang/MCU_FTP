@@ -1,0 +1,3 @@
+../source/BootLoader_Handle.c:11:6:array_to_uint32_array	24	static
+../source/BootLoader_Handle.c:26:6:ReceiveData_UART	16	static
+../source/BootLoader_Handle.c:39:6:writeNewFirware	16	static
